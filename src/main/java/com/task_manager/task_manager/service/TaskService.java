@@ -2,21 +2,20 @@ package com.task_manager.task_manager.service;
 
 import java.util.List;
 
-import com.task_manager.task_manager.entity.taskStatus.TaskStatus;
-import com.task_manager.task_manager.request.TaskRequestDTO;
+import com.task_manager.task_manager.entity.task.TaskStatus;
+import com.task_manager.task_manager.entity.task.Task;
 
 public interface TaskService {
 
-    void createTask(TaskRequestDTO request);
+    Task createTask(String title, String description);
 
-    List<TaskService> getTasks();
+    List<Task> getAllTasks();
 
-    TaskService getTask(Long id);
+    Task getTaskById(Long id);
 
-    void updateStatus(Long id, TaskStatus status);
+    void updateStatus(Long id);
 
-    void updateTask(Long id);
+    void updateTask(Long id, Task task);
 
     void deleteTask(Long id);
-
 }
