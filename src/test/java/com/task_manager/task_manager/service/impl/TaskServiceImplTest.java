@@ -1,10 +1,16 @@
 package com.task_manager.task_manager.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -12,10 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.task_manager.task_manager.entity.task.Task;
 import com.task_manager.task_manager.entity.task.TaskStatus;
-import com.task_manager.task_manager.entity.taskStatus.TaskStatusStrategy;
 import com.task_manager.task_manager.repository.TaskRepository;
-import java.util.List;
-import org.junit.jupiter.api.Disabled;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceImplTest {
@@ -38,19 +41,8 @@ class TaskServiceImplTest {
     @Test
     void createTask_shouldSaveTaskAndReturnModelWithId() {
         // Given
-        final var expectedId = 1L;
         final var expectedTitle = "Test Task";
         final var expectedDescription = "Test Description";
-        final var expectedStatus = TaskStatus.PENDING;
-        final var expectedCreatedAt = LocalDateTime.now();
-
-        Task savedTask = new Task(
-            expectedId,
-            expectedTitle,
-            expectedDescription,
-            expectedStatus,
-            expectedCreatedAt
-        );        
 
         when(taskRepository.save(any(Task.class))).thenAnswer(invocation -> {
             Task task = invocation.getArgument(0);
@@ -68,7 +60,7 @@ class TaskServiceImplTest {
         assertEquals("Test Description", result.getDescription());
         assertEquals(TaskStatus.PENDING, result.getStatus());
         assertNotNull(result.getCreatedAt());
-        
+
         verify(taskRepository).save(any(Task.class));
     }
 
@@ -76,10 +68,9 @@ class TaskServiceImplTest {
     void updateStatus_shouldUpdateTaskStatusToNext() {
         // Given
         final var expectedTaskId = 1L;
-        final var expectedCreatedAt = LocalDateTime.now();
         final var existingTask = new Task(1L, "Test", "Description", TaskStatus.PENDING, LocalDateTime.now());
         final var updatedTask = new Task(1L, "Test", "Description", TaskStatus.IN_PROGRESS, LocalDateTime.now());
-        
+
         when(taskRepository.findById(expectedTaskId)).thenReturn(Optional.of(existingTask));
         when(taskRepository.save(any(Task.class))).thenReturn(updatedTask);
 
@@ -102,7 +93,7 @@ class TaskServiceImplTest {
         when(taskRepository.findById(expectedTaskId)).thenReturn(Optional.empty());
 
         // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, 
+        RuntimeException exception = assertThrows(RuntimeException.class,
             () -> taskService.updateStatus(expectedTaskId));
         assertEquals("Task with ID 999 not found", exception.getMessage());
         verify(taskRepository, never()).save(any(Task.class));
@@ -111,24 +102,24 @@ class TaskServiceImplTest {
     @Test
     @Disabled
     void getAllTasks_shouldReturnNull() {
-        
+
     }
 
     @Test
     @Disabled
     void getTaskById_shouldReturnNull() {
-        
+
     }
 
     @Test
     @Disabled
     void updateTask_shouldReturnNull() {
-        
+
     }
 
     @Test
     @Disabled
     void deleteTask_shouldDoNothing() {
-        
+
     }
 }

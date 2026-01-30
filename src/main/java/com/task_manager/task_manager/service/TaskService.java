@@ -1,8 +1,6 @@
 package com.task_manager.task_manager.service;
 
 import java.util.List;
-
-import com.task_manager.task_manager.entity.task.TaskStatus;
 import com.task_manager.task_manager.entity.task.Task;
 
 public interface TaskService {

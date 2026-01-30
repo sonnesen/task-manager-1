@@ -1,23 +1,19 @@
 package com.task_manager.task_manager.entity.task;
 
 import java.time.LocalDateTime;
-
-import com.task_manager.task_manager.entity.task.TaskStatus;
-
+import org.springframework.data.annotation.CreatedDate;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Column;
-import lombok.Getter;
-import lombok.Setter;
-
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tasks")
@@ -42,6 +38,6 @@ public class Task {
     private TaskStatus status;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)    
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }
